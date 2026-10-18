@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeux de Julie - Le Jeu de Devinette</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #001f3f, #0074D9);
+            font-family: Arial, sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        h1 {
+            color: #FFDC00;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        .btn-retour {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #FFDC00;
+            color: #001f3f;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-retour:hover {
+            background-color: #FF851B;
+            color: white;
+        }
+
+        .mot-affichage {
+            font-size: 3rem;
+            letter-spacing: 15px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #7FDBFF;
+        }
+
+        .essais-restants {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: #FF4136;
+            font-weight: bold;
+        }
+
+        .clavier {
+            display: grid;
+            grid-template-columns: repeat(7, 50px);
+            grid-gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+            max-width: 450px;
+        }
+
+        .touche {
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            color: #001f3f;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: background-color 0.2s;
+        }
+        .touche:hover:not(:disabled) {
+            background-color: #FFDC00;
+        }
+        .touche:disabled {
+            background-color: #A0A0A0;
+            color: #606060;
+            cursor: default;
+            box-shadow: none;
+        }
+
+        .resultat {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 10px;
+            min-height: 40px;
+        }
+
+        .btn-rejouer {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            background-color: #2ECC40;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: none;
+        }
+        .btn-rejouer:hover {
+            background-color: #01FF70;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="page-jeu.html" class="btn-retour">📁 Menu</a>
+
+    <h1>Devine l'animal mystère !</h1>
+    
+    <div class="mot-affichage" id="motCache">_ _ _ _</div>
+    <div class="essais-restants" id="essaisTexte">Essais restants : ❤️ ❤️ ❤️ ❤️ ❤️</div>
+
+    <div class="clavier" id="clavierVirtuel"></div>
+
+    <div class="resultat" id="messageFin"></div>
+    <button class="btn-rejouer" id="boutonRejouer" onclick="demarrerPartie()">🔄 Autre mot</button>
+
+    <script>
+        const listeMots = ["CHAT", "CHIEN", "LOUP", "LION", "OURS", "TIGRE", "SINGE", "CHEVAL", "VACHE", "SOURIS"];
+        
+        let motSecret = "";
+        let lettresDevinees = [];
+        let erreurs = 0;
+        const maxErreurs = 5;
+
+        function demarrerPartie() {
+            motSecret = listeMots[Math.floor(Math.random() * listeMots.length)];
+            lettresDevinees = [];
+            erreurs = 0;
+
+            document.getElementById('messageFin').innerText = "";
+            document.getElementById('boutonRejouer').style.display = "none";
+            mettreAJourVies();
+            afficherMot();
+            creerClavier();
+        }
+
+        function afficherMot() {
+            let affichage = "";
+            for (let lettre of motSecret) {
+                if (lettresDevinees.includes(lettre)) {
+                    affichage += lettre + " ";
+                } else {
+                    affichage += "_ ";
+                }
+            }
+            document.getElementById('motCache').innerText = affichage.trim();
+            
+            if (!affichage.includes("_")) {
+                document.getElementById('messageFin').innerHTML = "<span style='color: #01FF70;'>Gagné ! Bravo ! 🎉</span>";
+                desactiverClavier();
+                document.getElementById('boutonRejouer').style.display = "inline-block";
+            }
+        }
+
+        function mettreAJourVies() {
+            let coeurs = "Essais restants : ";
+            for (let i = 0; i < maxErreurs - erreurs; i++) {
+                coeurs += "❤️ ";
+            }
+            document.getElementById('essaisTexte').innerText = coeurs;
+        }
+
+        function creerClavier() {
+            const conteneurClavier = document.getElementById('clavierVirtuel');
+            conteneurClavier.innerHTML = "";
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            for (let lettre of alphabet) {
+                let bouton = document.createElement('button');
+                bouton.className = "touche";
+                bouton.innerText = lettre;
+                bouton.onclick = function() {
+                    verifierLettre(lettre, bouton);
+                };
+                conteneurClavier.appendChild(bouton);
+            }
+        }
+
+        function verifierLettre(lettre, bouton) {
+            bouton.disabled = true;
+            
+            if (motSecret.includes(lettre)) {
+                lettresDevinees.push(lettre);
+                afficherMot();
+            } else {
+                erreurs++;
+                mettreAJourVies();
+                if (erreurs >= maxErreurs) {
+                    document.getElementById('messageFin').innerHTML = "<span style='color: #FF4136;'>Perdu ! C'était : " + motSecret + " 💔</span>";
+                    document.getElementById('motCache').innerText = motSecret.split('').join(' ');
+                    desactiverClavier();
+                    document.getElementById('boutonRejouer').style.display = "inline-block";
+                }
+            }
+        }
+
+        function desactiverClavier() {
+            const boutons = document.querySelectorAll('.touche');
+            boutons.forEach(b => b.disabled = true);
+        }
+
+        demarrerPartie();
+    </script>
+</body>
+</html>

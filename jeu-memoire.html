@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeux de Julie - Le Jeu de Mémoire</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #001f3f, #0074D9);
+            font-family: Arial, sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            color: #FFDC00;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+
+        .instructions {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #7FDBFF;
+        }
+
+        /* Bouton menu harmonisé */
+        .btn-retour {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #FFDC00;
+            color: #001f3f;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-retour:hover {
+            background-color: #FF851B;
+            color: white;
+        }
+
+        .grille-memoire {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .carte {
+            width: 100px;
+            height: 100px;
+            background-color: #2ECC40;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            user-select: none;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .carte:hover {
+            transform: scale(1.05);
+        }
+
+        .carte.retournee {
+            background-color: white;
+            cursor: default;
+        }
+
+        .zone-boutons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-action {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .btn-rebrasser {
+            background-color: #FF851B;
+            color: white;
+        }
+        .btn-rebrasser:hover {
+            background-color: #FFDC00;
+            color: #001f3f;
+        }
+
+        .btn-recommencer {
+            background-color: #FFDC00;
+            color: #001f3f;
+        }
+        .btn-recommencer:hover {
+            background-color: #FF851B;
+            color: white;
+        }
+
+        #message-victoire {
+            display: none;
+            font-size: 2rem;
+            color: #01FF70;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="page-jeu.html" class="btn-retour">📁 Menu</a>
+
+    <h1>Le Jeu de Mémoire</h1>
+    <div class="instructions">Trouvez toutes les paires cachées !</div>
+
+    <div class="grille-memoire" id="grille"></div>
+
+    <div class="zone-boutons">
+        <button class="btn-action btn-rebrasser" onclick="rebrasserCartes()">🔄 Rebrasser les cartes</button>
+        <button class="btn-action btn-recommencer" onclick="recommencerJeu()">🔁 Recommencer le jeu</button>
+    </div>
+
+    <div id="message-victoire">Félicitations, vous avez gagné ! 🎉</div>
+
+    <script>
+        const symbolesDeBase = ['🐱', '🐶', '🦊', '🦁', '🍎', '🍓', '🥕', '🧀', '🐱', '🐶', '🦊', '🦁', '🍎', '🍓', '🥕', '🧀'];
+        let symboles = [...symbolesDeBase];
+        
+        const grille = document.getElementById('grille');
+        let cartesRetournees = [];
+        let pairesTrouvees = 0;
+
+        function initialiserGrille(doitMélanger = true) {
+            grille.innerHTML = "";
+            if (doitMélanger) {
+                symboles.sort(() => 0.5 - Math.random());
+            }
+
+            for (let i = 0; i < 16; i++) {
+                let carte = document.createElement('div');
+                carte.className = 'carte';
+                carte.dataset.symbole = symboles[i];
+                carte.addEventListener('click', retournerCarte);
+                grille.appendChild(carte);
+            }
+        }
+
+        function retournerCarte() {
+            if (cartesRetournees.length >= 2 || this.classList.contains('retournee')) return;
+
+            this.innerText = this.dataset.symbole;
+            this.classList.add('retournee');
+            cartesRetournees.push(this);
+
+            if (cartesRetournees.length === 2) {
+                setTimeout(verifierCorrespondance, 700);
+            }
+        }
+
+        function verifierCorrespondance() {
+            let [carte1, carte2] = cartesRetournees;
+
+            if (carte1.dataset.symbole === carte2.dataset.symbole) {
+                pairesTrouvees++;
+                if (pairesTrouvees === 8) {
+                    document.getElementById('message-victoire').style.display = 'block';
+                }
+            } else {
+                carte1.innerText = '';
+                carte2.innerText = '';
+                carte1.classList.remove('retournee');
+                carte2.classList.remove('retournee');
+            }
+            cartesRetournees = [];
+        }
+
+        function rebrasserCartes() {
+            cartesRetournees = [];
+            pairesTrouvees = 0;
+            document.getElementById('message-victoire').style.display = 'none';
+            initialiserGrille(true);
+        }
+
+        function recommencerJeu() {
+            cartesRetournees = [];
+            pairesTrouvees = 0;
+            document.getElementById('message-victoire').style.display = 'none';
+            initialiserGrille(false);
+        }
+
+        initialiserGrille(true);
+    </script>
+</body>
+</html>
