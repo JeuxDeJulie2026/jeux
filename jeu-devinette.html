@@ -2,7 +2,8 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Cette ligne magique ajuste parfaitement le jeu de devinette à l'écran du téléphone ! -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Jeux de Julie - Le Jeu de Devinette</title>
     <style>
         body {
@@ -17,13 +18,16 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
         h1 {
             color: #FFDC00;
-            font-size: 2.5rem;
+            font-size: 2rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            margin-top: 40px;
         }
 
         .btn-retour {
@@ -37,6 +41,7 @@
             border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
+            z-index: 10;
         }
         .btn-retour:hover {
             background-color: #FF851B;
@@ -44,42 +49,56 @@
         }
 
         .mot-affichage {
-            font-size: 3rem;
-            letter-spacing: 15px;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            letter-spacing: 10px;
+            margin-bottom: 15px;
             font-weight: bold;
             color: #7FDBFF;
         }
 
         .essais-restants {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
             color: #FF4136;
             font-weight: bold;
         }
 
+        /* Clavier optimisé pour les écrans de téléphones (touches de 40px au lieu de 50px) */
         .clavier {
             display: grid;
-            grid-template-columns: repeat(7, 50px);
-            grid-gap: 10px;
+            grid-template-columns: repeat(7, 40px);
+            grid-gap: 8px;
             justify-content: center;
-            margin-bottom: 30px;
-            max-width: 450px;
+            margin-bottom: 20px;
+            max-width: 100%;
         }
 
         .touche {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background-color: white;
             color: #001f3f;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: bold;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 5px rgba(0,0,0,0.2);
             transition: background-color 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
         }
+
+        /* Redonne des touches plus grandes sur un écran d'ordinateur */
+        @media (min-width: 450px) {
+            h1 { font-size: 2.5rem; }
+            .mot-affichage { font-size: 3rem; letter-spacing: 15px; }
+            .clavier { grid-template-columns: repeat(7, 50px); grid-gap: 10px; }
+            .touche { width: 50px; height: 50px; font-size: 1.3rem; border-radius: 10px; }
+        }
+
         .touche:hover:not(:disabled) {
             background-color: #FFDC00;
         }
@@ -91,14 +110,14 @@
         }
 
         .resultat {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             margin-top: 10px;
             min-height: 40px;
         }
 
         .btn-rejouer {
-            margin-top: 20px;
+            margin-top: 15px;
             padding: 12px 25px;
             font-size: 1.2rem;
             background-color: #2ECC40;
