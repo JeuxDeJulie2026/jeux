@@ -3,331 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeu de Julie - La Souris et le Fromage</title>
+    <title>Jeux de Julie - Le Jeu de la Souris</title>
     <style>
-        html, body {
+        body {
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow: hidden;
-            background: linear-gradient(180deg, #001f3f, #0074D9);
+            background-color: #2c3e50;
             font-family: Arial, sans-serif;
-            cursor: none;
-            /* Empêche le téléphone de faire bouger la page quand on glisse le doigt */
-            touch-action: none; 
-        }
-
-        .hud {
-            position: absolute;
-            top: 20px;
-            left: 20px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            z-index: 10;
-        }
-
-        .score-board {
-            color: #FFDC00;
-            font-size: 1.8rem;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .vies-board {
-            color: #FF4136;
-            font-size: 1.3rem;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .btn-retour {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #FFDC00;
-            color: #001f3f;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: bold;
-            z-index: 110;
-            cursor: pointer !important;
-        }
-        .btn-retour:hover {
-            background-color: #FF851B;
-            color: white;
-        }
-
-        #game-over-screen {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            z-index: 100;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            min-height: 100vh;
             color: white;
+            overflow: hidden;
         }
 
-        #game-over-screen h2 {
-            font-size: 3.5rem;
-            color: #FF4136;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        h1 {
+            margin: 10px 0;
+            font-size: 24px;
         }
 
-        .btn-rejouer {
-            padding: 15px 30px;
-            font-size: 1.3rem;
-            background-color: #2ECC40;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        #score-container {
+            font-size: 18px;
+            margin-bottom: 10px;
         }
 
-        .fromage {
+        /* Zone de jeu responsive pour s'adapter aux téléphones */
+        #game-board {
+            position: relative;
+            width: 90vw;
+            max-width: 400px;
+            height: 60vh;
+            max-height: 500px;
+            background-color: #34495e;
+            border: 4px solid #3498db;
+            border-radius: 10px;
+            overflow: hidden;
+            touch-action: none; /* Empêche l'écran de bouger sur téléphone */
+        }
+
+        /* Éléments du jeu */
+        #mouse {
             position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 30px solid #FFDC00; 
-            top: -40px;
+            bottom: 20px;
+            left: 50%;
+            width: 50px;
+            height: 40px;
+            background-color: #95a5a6;
+            border-radius: 50% 50% 20% 20%;
+            transform: translateX(-50%);
+            transition: left 0.05s ease-out; /* Plus réactif aux mouvements */
         }
 
-        .fromage::after {
+        /* Les deux petits ronds roses au-dessus de la souris (ses oreilles) */
+        #mouse::before, #mouse::after {
             content: '';
             position: absolute;
-            top: -25px;
-            left: -5px;
-            width: 4px;
-            height: 4px;
-            background-color: #D1A100;
+            top: -10px;
+            width: 15px;
+            height: 15px;
+            background-color: #ff9ff3;
             border-radius: 50%;
-            box-shadow: 8px 5px 0 #D1A100, -4px 10px 0 #D1A100;
         }
+        #mouse::before { left: 5px; }
+        #mouse::after { right: 5px; }
 
-        #souris-conteneur {
-            position: absolute;
-            bottom: 40px;
-            width: 90px;
-            height: 110px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .corps-souris {
-            width: 60px;
-            height: 60px;
-            background-color: #A0A0A0;
-            border-radius: 50%;
-            position: relative;
-            z-index: 2;
-        }
-
-        .bouche-ouverte {
+        /* L'œil de la souris */
+        .eye {
             position: absolute;
             top: 10px;
-            left: 20px;
-            width: 20px;
-            height: 16px;
-            background-color: #4A0000;
-            border-radius: 50% 50% 30% 30%;
-            border-bottom: 3px solid #FFB6C1;
-        }
-
-        .oeil {
-            position: absolute;
-            top: 32px;
+            left: 22px;
             width: 6px;
             height: 6px;
-            background-color: black;
+            background-color: #000;
             border-radius: 50%;
         }
-        .oeil-gauche { left: 18px; }
-        .oeil-droite { left: 36px; }
 
-        .zone-oreilles {
-            display: flex;
-            gap: 10px;
-            margin-top: -10px;
-            z-index: 1;
-        }
-
-        .oreille {
-            width: 28px;
-            height: 28px;
-            background-color: #A0A0A0;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .oreille::after {
-            content: '';
+        .cheese {
             position: absolute;
-            top: 5px;
-            left: 5px;
-            width: 18px;
-            height: 18px;
-            background-color: #FFB6C1;
-            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            background-color: #f1c40f;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Forme de triangle */
+            border-radius: 5px;
+        }
+
+        #btn-retour {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="hud">
-        <div class="score-board">Fromages mangés : <span id="score">0</span></div>
-        <div class="vies-board">Vies : <span id="vies">💖 💖 💖</span></div>
-    </div>
-    
-    <a href="page-jeu.html" class="btn-retour">📁 Menu</a>
-
-    <div id="game-over-screen">
-        <h2>GAME OVER</h2>
-        <p style="font-size: 1.3rem; margin-bottom: 30px;">La souris a trop faim !</p>
-        <button class="btn-rejouer" onclick="recommencerPartie()">Recommencer</button>
+    <h1>Le Jeu de la Souris 🐭</h1>
+    <div id="score-container">
+        Score : <span id="score">0</span> | Vies : <span id="lives">❤️❤️❤️</span>
     </div>
 
-    <div id="souris-conteneur">
-        <div class="corps-souris">
-            <div class="bouche-ouverte"></div>
-            <div class="oeil oeil-gauche"></div>
-            <div class="oeil oeil-droite"></div>
-        </div>
-        <div class="zone-oreilles">
-            <div class="oreille"></div>
-            <div class="oreille"></div>
-        </div>
+    <div id="game-board">
+        <div id="mouse"><div class="eye"></div></div>
     </div>
 
-    <div id="monFromage" class="fromage"></div>
+    <a href="page-jeu.html" id="btn-retour">Retour aux jeux</a>
 
     <script>
+        const board = document.getElementById('game-board');
+        const mouse = document.getElementById('mouse');
+        const scoreDisplay = document.getElementById('score');
+        const livesDisplay = document.getElementById('lives');
+
         let score = 0;
-        let vies = 3;
-        let jeuActif = true;
-        let vitesseInitiale = 4;
-        let vitesseFromage = vitesseInitiale;
+        let lives = 3;
+        let mouseX = board.clientWidth / 2;
 
-        const souris = document.getElementById('souris-conteneur');
-        const fromage = document.getElementById('monFromage');
-        const affichageScore = document.getElementById('score');
-        const affichageVies = document.getElementById('vies');
-        const ecranGameOver = document.getElementById('game-over-screen');
+        // Déplacement de la souris adapté pour aller jusqu'au bout des bords
+        function moveMouse(e) {
+            const rect = board.getBoundingClientRect();
+            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            let relativeX = clientX - rect.left;
 
-        let fromageX = Math.random() * (window.innerWidth - 30);
-        let fromageY = -40;
+            // Ajustement des limites : permet à la tête d'atteindre le ras du mur
+            if (relativeX < 15) relativeX = 15;
+            if (relativeX > rect.width - 15) relativeX = rect.width - 15;
 
-        // Fonction unique pour déplacer la souris de façon fluide
-        function deplacerPersonnage(axeX) {
-            if (!jeuActif) return;
-            if (axeX > 45 && axeX < window.innerWidth - 45) {
-                souris.style.left = axeX + 'px';
-            }
+            mouseX = relativeX;
+            mouse.style.left = mouseX + 'px';
         }
 
-        // 1. Déplacement pour ORDINATEUR (Souris)
-        window.addEventListener('mousemove', (evenement) => {
-            let x = evenement.clientX;
-            let y = evenement.clientY;
+        board.addEventListener('mousemove', moveMouse);
+        board.addEventListener('touchmove', moveMouse, { passive: false });
 
-            if (x > window.innerWidth - 150 && y < 80) {
-                document.body.style.cursor = 'default';
-            } else if (jeuActif) {
-                document.body.style.cursor = 'none';
-            }
-            deplacerPersonnage(x);
-        });
+        // Fonction pour faire tomber les fromages
+        function createCheese() {
+            if (lives <= 0) return;
 
-        // 2. Déplacement pour TÉLÉPHONE (Doigt tactile)
-        window.addEventListener('touchmove', (evenement) => {
-            let xTactile = evenement.touches[0].clientX;
-            deplacerPersonnage(xTactile);
-        }, { passive: true });
-
-        window.addEventListener('touchstart', (evenement) => {
-            let xTactile = evenement.touches[0].clientX;
-            deplacerPersonnage(xTactile);
-        }, { passive: true });
-
-
-        function animerJeu() {
-            if (!jeuActif) return;
-
-            fromageY += vitesseFromage;
+            const cheese = document.createElement('div');
+            cheese.classList.add('cheese');
             
-            if (fromageY > window.innerHeight) {
-                vies--;
-                mettreAJourVies();
-                
-                if (vies <= 0) {
-                    finDePartie();
-                } else {
-                    remettreFromageEnHaut();
+            // Position aléatoire en largeur (légèrement resserrée pour coller à la nouvelle limite)
+            const randomX = 5 + Math.random() * (board.clientWidth - 40);
+            cheese.style.left = randomX + 'px';
+            cheese.style.top = '0px';
+            board.appendChild(cheese);
+
+            let cheeseY = 0;
+            const fallSpeed = 3 + Math.random() * 3;
+
+            const interval = setInterval(() => {
+                if (lives <= 0) {
+                    clearInterval(interval);
+                    cheese.remove();
+                    return;
                 }
-            }
 
-            let limitesSouris = souris.getBoundingClientRect();
-            
-            if (fromageY >= limitesSouris.top && fromageY <= limitesSouris.top + 30) {
-                if (fromageX >= limitesSouris.left - 15 && fromageX <= limitesSouris.right + 15) {
-                    score++;
-                    affichageScore.innerText = score;
-                    vitesseFromage += 0.4;
-                    remettreFromageEnHaut();
+                cheeseY += fallSpeed;
+                cheese.style.top = cheeseY + 'px';
+
+                // Détection de collision
+                const mouseRect = mouse.getBoundingClientRect();
+                const cheeseRect = cheese.getBoundingClientRect();
+
+                if (
+                    cheeseRect.bottom >= mouseRect.top &&
+                    cheeseRect.right >= mouseRect.left &&
+                    cheeseRect.left <= mouseRect.right &&
+                    cheeseRect.top <= mouseRect.bottom
+                ) {
+                    score += 10;
+                    scoreDisplay.textContent = score;
+                    clearInterval(interval);
+                    cheese.remove();
                 }
-            }
 
-            fromage.style.top = fromageY + 'px';
-            fromage.style.left = fromageX + 'px';
+                // Si le fromage touche le bas
+                if (cheeseY > board.clientHeight) {
+                    clearInterval(interval);
+                    cheese.remove();
+                    lives--;
+                    livesDisplay.textContent = '❤️'.repeat(lives);
 
-            requestAnimationFrame(animerJeu);
+                    if (lives === 0) {
+                        alert("Partie terminée ! Votre score : " + score);
+                        resetGame();
+                    }
+                }
+            }, 20);
         }
 
-        function remettreFromageEnHaut() {
-            fromageY = -40;
-            fromageX = Math.random() * (window.innerWidth - 30);
-        }
-
-        function mettreAJourVies() {
-            let coeurs = "";
-            for (let i = 0; i < vies; i++) {
-                coeurs += "💖 ";
-            }
-            affichageVies.innerText = coeurs || "💔 Aucun";
-        }
-
-        function finDePartie() {
-            jeuActif = false;
-            document.body.style.cursor = 'default';
-            ecranGameOver.style.display = 'flex';
-        }
-
-        function recommencerPartie() {
+        function resetGame() {
             score = 0;
-            vies = 3;
-            vitesseFromage = vitesseInitiale;
-            jeuActif = true;
-            document.body.style.cursor = 'none';
-            affichageScore.innerText = score;
-            mettreAJourVies();
-            ecranGameOver.style.display = 'none';
-            remettreFromageEnHaut();
-            animerJeu();
+            lives = 3;
+            scoreDisplay.textContent = score;
+            livesDisplay.textContent = '❤️❤️❤️';
         }
 
-        animerJeu();
+        // Générer un fromage toutes les 1.2 secondes
+        setInterval(createCheese, 1200);
     </script>
 </body>
 </html>
+
