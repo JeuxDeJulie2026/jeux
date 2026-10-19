@@ -1,167 +1,333 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Jeu de la Souris</title>
+    <title>Jeu de Julie - La Souris et le Fromage</title>
     <style>
-        body {
+        html, body {
             margin: 0;
-            background: #1a365d;
-            color: white;
-            font-family: sans-serif;
-            text-align: center;
+            padding: 0;
+            height: 100%;
             overflow: hidden;
-            touch-action: none;
+            background: linear-gradient(180deg, #001f3f, #0074D9);
+            font-family: Arial, sans-serif;
+            cursor: none;
+            /* Empêche le téléphone de faire bouger la page quand on glisse le doigt */
+            touch-action: none; 
         }
 
-        /* La barre de navigation en haut avec la petite enveloppe/menu */
-        .barre-menu {
+        .hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #0d1b2a;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .score-board {
+            color: #FFDC00;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .vies-board {
+            color: #FF4136;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .btn-retour {
+            position: absolute;
+            top: 20px;
+            right: 20px;
             padding: 10px 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        .bouton-menu {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: white;
+            background-color: #FFDC00;
+            color: #001f3f;
             text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 110;
+            cursor: pointer !important;
+        }
+        .btn-retour:hover {
+            background-color: #FF851B;
+            color: white;
         }
 
-        #zone-jeu {
-            position: relative;
-            width: 100vw;
-            height: calc(100vh - 60px);
-            background: #415a77;
-            overflow: hidden;
+        #game-over-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 100;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
         }
 
-        .souris {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background: #e0e1dd;
-            border-radius: 50%;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            touch-action: none;
+        #game-over-screen h2 {
+            font-size: 3.5rem;
+            color: #FF4136;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
         }
 
-        /* Les petits yeux pink de la souris */
-        .oeil {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #ff4d6d;
-            border-radius: 50%;
-            top: 15px;
+        .btn-rejouer {
+            padding: 15px 30px;
+            font-size: 1.3rem;
+            background-color: #2ECC40;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .oeil.gauche { left: 15px; }
-        .oeil.droit { right: 15px; }
 
         .fromage {
             position: absolute;
-            width: 30px;
-            height: 30px;
-            background: #ffb703;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #FFDC00; 
+            top: -40px;
         }
 
-        #score {
-            font-size: 1.5rem;
-            font-weight: bold;
+        .fromage::after {
+            content: '';
+            position: absolute;
+            top: -25px;
+            left: -5px;
+            width: 4px;
+            height: 4px;
+            background-color: #D1A100;
+            border-radius: 50%;
+            box-shadow: 8px 5px 0 #D1A100, -4px 10px 0 #D1A100;
+        }
+
+        #souris-conteneur {
+            position: absolute;
+            bottom: 40px;
+            width: 90px;
+            height: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .corps-souris {
+            width: 60px;
+            height: 60px;
+            background-color: #A0A0A0;
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .bouche-ouverte {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 20px;
+            height: 16px;
+            background-color: #4A0000;
+            border-radius: 50% 50% 30% 30%;
+            border-bottom: 3px solid #FFB6C1;
+        }
+
+        .oeil {
+            position: absolute;
+            top: 32px;
+            width: 6px;
+            height: 6px;
+            background-color: black;
+            border-radius: 50%;
+        }
+        .oeil-gauche { left: 18px; }
+        .oeil-droite { left: 36px; }
+
+        .zone-oreilles {
+            display: flex;
+            gap: 10px;
+            margin-top: -10px;
+            z-index: 1;
+        }
+
+        .oreille {
+            width: 28px;
+            height: 28px;
+            background-color: #A0A0A0;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .oreille::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 18px;
+            height: 18px;
+            background-color: #FFB6C1;
+            border-radius: 50%;
         }
     </style>
 </head>
 <body>
 
-    <!-- Notre barre avec l'enveloppe pour retourner à la sélection des jeux -->
-    <div class="barre-menu">
-        <a href="page-jeu.html" class="bouton-menu">✉️ Menu</a>
-        <div id="score">Score : 0</div>
-        <div></div>
+    <div class="hud">
+        <div class="score-board">Fromages mangés : <span id="score">0</span></div>
+        <div class="vies-board">Vies : <span id="vies">💖 💖 💖</span></div>
+    </div>
+    
+    <a href="page-jeu.html" class="btn-retour">📁 Menu</a>
+
+    <div id="game-over-screen">
+        <h2>GAME OVER</h2>
+        <p style="font-size: 1.3rem; margin-bottom: 30px;">La souris a trop faim !</p>
+        <button class="btn-rejouer" onclick="recommencerPartie()">Recommencer</button>
     </div>
 
-    <div id="zone-jeu">
-        <div id="joueur-souris" class="souris">
-            <div class="oeil gauche"></div>
-            <div class="oeil droit"></div>
+    <div id="souris-conteneur">
+        <div class="corps-souris">
+            <div class="bouche-ouverte"></div>
+            <div class="oeil oeil-gauche"></div>
+            <div class="oeil oeil-droite"></div>
+        </div>
+        <div class="zone-oreilles">
+            <div class="oreille"></div>
+            <div class="oreille"></div>
         </div>
     </div>
 
+    <div id="monFromage" class="fromage"></div>
+
     <script>
-        const zone = document.getElementById('zone-jeu');
-        const souris = document.getElementById('joueur-souris');
-        const scoreAffichage = document.getElementById('score');
         let score = 0;
-        let positionSourisX = zone.clientWidth / 2;
+        let vies = 3;
+        let jeuActif = true;
+        let vitesseInitiale = 4;
+        let vitesseFromage = vitesseInitiale;
 
-        // Ajustement pour le déplacement tactile sur téléphone et PC
-        function deplacerSouris(x) {
-            const limiteGauche = 0;
-            const limiteDroite = zone.clientWidth - 60;
-            positionSourisX = x - 30;
+        const souris = document.getElementById('souris-conteneur');
+        const fromage = document.getElementById('monFromage');
+        const affichageScore = document.getElementById('score');
+        const affichageVies = document.getElementById('vies');
+        const ecranGameOver = document.getElementById('game-over-screen');
 
-            if (positionSourisX < limiteGauche) positionSourisX = limiteGauche;
-            if (positionSourisX > limiteDroite) positionSourisX = limiteDroite;
+        let fromageX = Math.random() * (window.innerWidth - 30);
+        let fromageY = -40;
 
-            souris.style.left = positionSourisX + 'px';
-        }
-
-        zone.addEventListener('mousemove', (e) => {
-            deplacerSouris(e.clientX);
-        });
-
-        zone.addEventListener('touchmove', (e) => {
-            if (e.touches.length > 0) {
-                deplacerSouris(e.touches[0].clientX);
+        // Fonction unique pour déplacer la souris de façon fluide
+        function deplacerPersonnage(axeX) {
+            if (!jeuActif) return;
+            if (axeX > 45 && axeX < window.innerWidth - 45) {
+                souris.style.left = axeX + 'px';
             }
-        });
-
-        // Faire descendre le fromage bien à l'intérieur
-        function creerFromage() {
-            const fromage = document.createElement('div');
-            fromage.classList.add('fromage');
-            // Aligné pour ne pas déborder sur les côtés
-            const posX = Math.random() * (zone.clientWidth - 30);
-            fromage.style.left = posX + 'px';
-            fromage.style.top = '0px';
-            zone.appendChild(fromage);
-
-            let vitesse = 3;
-            let intervalle = setInterval(() => {
-                let topActuel = parseInt(fromage.style.top);
-                fromage.style.top = (topActuel + vitesse) + 'px';
-
-                // Vérification de la collision avec la tête de la souris
-                let rectSouris = souris.getBoundingClientRect();
-                let rectFromage = fromage.getBoundingClientRect();
-
-                if (rectFromage.bottom >= rectSouris.top &&
-                    rectFromage.right >= rectSouris.left &&
-                    rectFromage.left <= rectSouris.right &&
-                    rectFromage.top <= rectSouris.bottom) {
-                    score++;
-                    scoreAffichage.innerText = "Score : " + score;
-                    clearInterval(intervalle);
-                    fromage.remove();
-                }
-
-                if (topActuel > zone.clientHeight) {
-                    clearInterval(intervalle);
-                    fromage.remove();
-                }
-            }, 20);
         }
 
-        setInterval(creerFromage, 2000);
+        // 1. Déplacement pour ORDINATEUR (Souris)
+        window.addEventListener('mousemove', (evenement) => {
+            let x = evenement.clientX;
+            let y = evenement.clientY;
+
+            if (x > window.innerWidth - 150 && y < 80) {
+                document.body.style.cursor = 'default';
+            } else if (jeuActif) {
+                document.body.style.cursor = 'none';
+            }
+            deplacerPersonnage(x);
+        });
+
+        // 2. Déplacement pour TÉLÉPHONE (Doigt tactile)
+        window.addEventListener('touchmove', (evenement) => {
+            let xTactile = evenement.touches[0].clientX;
+            deplacerPersonnage(xTactile);
+        }, { passive: true });
+
+        window.addEventListener('touchstart', (evenement) => {
+            let xTactile = evenement.touches[0].clientX;
+            deplacerPersonnage(xTactile);
+        }, { passive: true });
+
+
+        function animerJeu() {
+            if (!jeuActif) return;
+
+            fromageY += vitesseFromage;
+            
+            if (fromageY > window.innerHeight) {
+                vies--;
+                mettreAJourVies();
+                
+                if (vies <= 0) {
+                    finDePartie();
+                } else {
+                    remettreFromageEnHaut();
+                }
+            }
+
+            let limitesSouris = souris.getBoundingClientRect();
+            
+            if (fromageY >= limitesSouris.top && fromageY <= limitesSouris.top + 30) {
+                if (fromageX >= limitesSouris.left - 15 && fromageX <= limitesSouris.right + 15) {
+                    score++;
+                    affichageScore.innerText = score;
+                    vitesseFromage += 0.4;
+                    remettreFromageEnHaut();
+                }
+            }
+
+            fromage.style.top = fromageY + 'px';
+            fromage.style.left = fromageX + 'px';
+
+            requestAnimationFrame(animerJeu);
+        }
+
+        function remettreFromageEnHaut() {
+            fromageY = -40;
+            fromageX = Math.random() * (window.innerWidth - 30);
+        }
+
+        function mettreAJourVies() {
+            let coeurs = "";
+            for (let i = 0; i < vies; i++) {
+                coeurs += "💖 ";
+            }
+            affichageVies.innerText = coeurs || "💔 Aucun";
+        }
+
+        function finDePartie() {
+            jeuActif = false;
+            document.body.style.cursor = 'default';
+            ecranGameOver.style.display = 'flex';
+        }
+
+        function recommencerPartie() {
+            score = 0;
+            vies = 3;
+            vitesseFromage = vitesseInitiale;
+            jeuActif = true;
+            document.body.style.cursor = 'none';
+            affichageScore.innerText = score;
+            mettreAJourVies();
+            ecranGameOver.style.display = 'none';
+            remettreFromageEnHaut();
+            animerJeu();
+        }
+
+        animerJeu();
     </script>
 </body>
 </html>
