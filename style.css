@@ -40,7 +40,6 @@ body, html {
     animation: zoomArriere 1.5s ease-out forwards;
 }
 
-
 .zone-herbe {
     position: absolute;
     bottom: 0;
@@ -222,51 +221,51 @@ body, html {
     }
     50% { 
         box-shadow: 0 0 90px #FFFF00, 0 0 40px #FF9800, 0 0 20px #FFF; 
-        transform: translateX(-50%) scale(1.08); /* Effet de flash et grossissement */
+        transform: translateX(-50%) scale(1.08); 
     }
     100% { 
         box-shadow: 0 0 40px #FFEB3B, 0 0 10px #FFF; 
         transform: translateX(-50%) scale(1); 
     }
+} /* <-- ACCOLADE MAGIQUE REMISE ICI POUR TOUT RÉPARER ! */
 
 
-/* LE RÉGLAGE MAGIQUE PARFAITEMENT PROPORTIONNÉ POUR TÉLÉPHONES */
-/* LE RÉGLAGE MAGIQUE PARFAITEMENT PROPORTIONNÉ POUR TÉLÉPHONES */
+/* ========================================================== */
+/* 📱       RÉGLAGE PROPORTIONNÉ POUR TÉLÉPHONES              */
+/* ========================================================== */
 @media (max-width: 600px) {
     .scene-container {
-        /* On écrase le zoom d'origine pour forcer la scène complète à rétrécir */
         animation: zoomArriereMobile 1.5s ease-out forwards !important;
         width: 100vw !important;
         height: 100vh !important;
     }
 
-    /* On crée une version miniature du zoom arrière spécialement pour le téléphone */
     @keyframes zoomArriereMobile {
         0% { transform: scale(1.2); opacity: 0; }
-        100% { transform: scale(0.45); opacity: 1; } /* On s'arrête à 45% au lieu de 100% ! */
+        100% { transform: scale(0.38); opacity: 1; } /* Réduit à 38% pour tout voir ! */
     }
 
     .soleil-bouton {
-        top: 25% !important; /* Pour que le soleil reste bien visible et cliquable au centre */
+        top: 22% !important;
     }
 
-    /* 🌳 HARMONIE DES GROS ARBRES : On réduit le TRONC et les FEUILLES en même temps */
+    /* 🌳 HARMONIE DES GROS ARBRES DE DEVANT */
     .arbre-premier-gauche { 
-        transform: scale(0.45) !important; 
+        transform: scale(0.40) !important; 
         transform-origin: bottom left !important;
-        left: -30px !important; 
+        left: -35px !important; 
     }
     
     .arbre-premier-droite { 
-        transform: scale(0.45) !important; 
+        transform: scale(0.40) !important; 
         transform-origin: bottom right !important;
-        right: -30px !important; 
+        right: -35px !important; 
     }
 
-    /* 🌷 VISIBILITÉ DE LA FLEUR : On la remonte au-dessus de l'herbe */
+    /* 🌷 PLACEMENT DE LA FLEUR */
     .fleur-conteneur { 
-        left: 65% !important; 
-        bottom: 28% !important; 
-        transform: scale(1.3) !important; 
+        left: 68% !important; 
+        bottom: 24% !important; 
+        transform: scale(1.2) !important; 
     }
 }
