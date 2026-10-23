@@ -28,6 +28,7 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
+    width: 100%;
     overflow: hidden;
     background: linear-gradient(180deg, #1A74E2, #63A4FF);
     font-family: 'Arial', sans-serif;
@@ -37,6 +38,7 @@ body, html {
     position: relative;
     width: 100%;
     height: 100%;
+    overflow: hidden; /* <-- Empêche de voir les animaux cachés sur les côtés ! */
     animation: zoomArriere 1.5s ease-out forwards;
 }
 
@@ -119,7 +121,6 @@ body, html {
     transform-origin: bottom center;
 }
 
-/* La Fleur se plie à 7 secondes pile quand le cochon arrive */
 .anime-active .fleur-conteneur {
     animation: plierFleur 1.5s ease-in-out 9.8s forwards;
 }
@@ -169,7 +170,6 @@ body, html {
     z-index: 4;
 }
 
-/* Le Cochon attend 4.5 secondes (la moitié du chemin des zèbres) */
 .anime-active .cochon-sprinteur {
     animation: courirCochon 3.5s linear 7.5s forwards;
 }
@@ -215,57 +215,63 @@ body, html {
 }
 
 @keyframes palpite {
-    0% { 
-        box-shadow: 0 0 40px #FFEB3B, 0 0 10px #FFF; 
-        transform: translateX(-50%) scale(1); 
-    }
-    50% { 
-        box-shadow: 0 0 90px #FFFF00, 0 0 40px #FF9800, 0 0 20px #FFF; 
-        transform: translateX(-50%) scale(1.08); 
-    }
-    100% { 
-        box-shadow: 0 0 40px #FFEB3B, 0 0 10px #FFF; 
-        transform: translateX(-50%) scale(1); 
-    }
-} /* <-- ACCOLADE MAGIQUE REMISE ICI POUR TOUT RÉPARER ! */
-
+    0% { box-shadow: 0 0 40px #FFEB3B, 0 0 10px #FFF; transform: translateX(-50%) scale(1); }
+    50% { box-shadow: 0 0 90px #FFFF00, 0 0 40px #FF9800, 0 0 20px #FFF; transform: translateX(-50%) scale(1.08); }
+    100% { box-shadow: 0 0 40px #FFEB3B, 0 0 10px #FFF; transform: translateX(-50%) scale(1); }
+}
 
 /* ========================================================== */
-/* 📱       RÉGLAGE PROPORTIONNÉ POUR TÉLÉPHONES              */
+/* 📱       RÉGLAGE FLUIDE SANS REDUCTION POUR TÉLÉPHONES      */
 /* ========================================================== */
 @media (max-width: 600px) {
     .scene-container {
-        animation: zoomArriereMobile 1.5s ease-out forwards !important;
-        width: 100vw !important;
-        height: 100vh !important;
-    }
-
-    @keyframes zoomArriereMobile {
-        0% { transform: scale(1.2); opacity: 0; }
-        100% { transform: scale(0.38); opacity: 1; } /* Réduit à 38% pour tout voir ! */
+        /* On ne réduit plus la scène globale, elle prend tout l'écran ! */
+        animation: none !important;
+        width: 100% !important;
+        height: 100% !important;
     }
 
     .soleil-bouton {
-        top: 22% !important;
+        width: 100px !important;
+        height: 100px !important;
+        font-size: 1rem !important;
+        top: 10% !important;
     }
 
-    /* 🌳 HARMONIE DES GROS ARBRES DE DEVANT */
-    .arbre-premier-gauche { 
-        transform: scale(0.40) !important; 
-        transform-origin: bottom left !important;
-        left: -35px !important; 
-    }
-    
-    .arbre-premier-droite { 
-        transform: scale(0.40) !important; 
-        transform-origin: bottom right !important;
-        right: -35px !important; 
+    /* 🌳 ON COUPE LES ARBRES DE DEVANT POUR TÉLÉPHONE (Ils ne gâchent plus la vue) */
+    .arbre-premier-gauche, .arbre-premier-droite {
+        display: none !important;
     }
 
-    /* 🌷 PLACEMENT DE LA FLEUR */
+    /* 🦓 ON ADAPTE LES COULISSES POUR QUE LES ANIMAUX SOIENT BIEN CACHÉS À GAUCHE */
+    .defile-animaux {
+        left: -250px !important;
+        bottom: 18% !important;
+    }
+    .cochon-sprinteur {
+        left: -100px !important;
+        bottom: 16% !important;
+    }
+
+    /* TAILLE DES ÉMOJIS SUR MOBILE */
+    .maman-z { font-size: 65px !important; }
+    .bebe-z { font-size: 45px !important; }
+    .cochon-sprinteur { font-size: 40px !important; }
+
+    /* LES NOUVELLES TRAJECTOIRES CORRIGÉES POUR MOBILE */
+    @keyframes marcherZebres {
+        0% { left: -250px; }
+        100% { left: 105%; }
+    }
+    @keyframes courirCochon {
+        0% { left: -100px; }
+        100% { left: 105%; }
+    }
+
+    /* 🌷 PLACEMENT DE LA FLEUR POUR MOBILE */
     .fleur-conteneur { 
-        left: 68% !important; 
-        bottom: 24% !important; 
-        transform: scale(1.2) !important; 
+        left: 75% !important; 
+        bottom: 16% !important; 
+        transform: scale(0.8) !important; 
     }
 }
