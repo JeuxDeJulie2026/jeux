@@ -223,12 +223,18 @@ body, html {
 /* ========================================================== */
 /* 📱       RÉGLAGE FLUIDE SANS REDUCTION POUR TÉLÉPHONES      */
 /* ========================================================== */
+/* ========================================================== */
+/* 📱       RÉGLAGE PARFAIT ET AJUSTÉ POUR TÉLÉPHONES         */
+/* ========================================================== */
 @media (max-width: 600px) {
     .scene-container {
-        /* On ne réduit plus la scène globale, elle prend tout l'écran ! */
-        animation: none !important;
-        width: 100% !important;
-        height: 100% !important;
+        /* On retire le scale() pour que la scène occupe tout l'écran du téléphone */
+        transform: none !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        position: relative !important;
+        /* Cette ligne magique cache TOUT ce qui dépasse sur les côtés (les animaux qui attendent) */
+        overflow: hidden !important; 
     }
 
     .soleil-bouton {
@@ -238,29 +244,29 @@ body, html {
         top: 10% !important;
     }
 
-    /* 🌳 ON COUPE LES ARBRES DE DEVANT POUR TÉLÉPHONE (Ils ne gâchent plus la vue) */
+    /* 🌳 ON COUPE LES GROS ARBRES DE DEVANT POUR VOIR TOUTE LA SAVANE */
     .arbre-premier-gauche, .arbre-premier-droite {
         display: none !important;
     }
 
-    /* 🦓 ON ADAPTE LES COULISSES POUR QUE LES ANIMAUX SOIENT BIEN CACHÉS À GAUCHE */
+    /* 🦓 ON POSITIONNE LES ANIMAUX BIEN CACHÉS HORS DE L'ÉCRAN À GAUCHE */
     .defile-animaux {
-        left: -250px !important;
-        bottom: 18% !important;
+        left: -200px !important;
+        bottom: 20% !important;
     }
     .cochon-sprinteur {
         left: -100px !important;
-        bottom: 16% !important;
+        bottom: 18% !important;
     }
 
-    /* TAILLE DES ÉMOJIS SUR MOBILE */
-    .maman-z { font-size: 65px !important; }
+    /* TAILLE ADAPTÉE DES ÉMOJIS SUR MOBILE */
+    .maman-z { font-size: 70px !important; }
     .bebe-z { font-size: 45px !important; }
-    .cochon-sprinteur { font-size: 40px !important; }
+    .cochon-sprinteur { font-size: 45px !important; }
 
-    /* LES NOUVELLES TRAJECTOIRES CORRIGÉES POUR MOBILE */
+    /* LES NOUVELLES TRAJECTOIRES POUR TRAVERSER TOUT L'ÉCRAN DU TÉLÉPHONE */
     @keyframes marcherZebres {
-        0% { left: -250px; }
+        0% { left: -200px; }
         100% { left: 105%; }
     }
     @keyframes courirCochon {
@@ -271,7 +277,7 @@ body, html {
     /* 🌷 PLACEMENT DE LA FLEUR POUR MOBILE */
     .fleur-conteneur { 
         left: 75% !important; 
-        bottom: 16% !important; 
+        bottom: 18% !important; 
         transform: scale(0.8) !important; 
     }
 }
