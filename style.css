@@ -228,4 +228,31 @@ body, html {
         box-shadow: 0 0 40px #FFEB3B, 0 0 10px #FFF; 
         transform: translateX(-50%) scale(1); 
     }
+/* AJUSTEMENT SPÉCIAL POUR LES ÉCRANS DE TÉLÉPHONES */
+@media (max-width: 600px) {
+    .scene-container {
+        transform: scale(1);
+    }
+    /* On réduit la taille des gros arbres du premier plan */
+    .feuilles-premier-plan-gauche { width: 200px; height: 300px; }
+    .feuilles-premier-plan-droite { width: 210px; height: 310px; }
+    .arbre-premier-gauche { width: 50px; height: 280px; left: -10px; bottom: -20px; }
+    .arbre-premier-droite { width: 50px; height: 280px; right: -10px; bottom: -20px; }
+    
+    /* On ajuste le départ des animaux pour qu'ils ne marchent pas trop longtemps hors écran */
+    @keyframes marcherZebres {
+        0% { left: -180px; }
+        100% { left: 105%; }
+    }
+    @keyframes courirCochon {
+        0% { left: -100px; }
+        100% { left: 105%; }
+    }
+    
+    /* On adapte la position de la fleur */
+    .fleur-conteneur { left: 65%; bottom: 20%; transform: scale(0.8); }
+    
+    /* On rétrécit le soleil bouton */
+    .soleil-bouton { width: 90px; height: 90px; font-size: 1rem; top: 12%; }
 }
+
