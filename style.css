@@ -231,36 +231,42 @@ body, html {
 
 
 /* LE RÉGLAGE MAGIQUE PARFAITEMENT PROPORTIONNÉ POUR TÉLÉPHONES */
+/* LE RÉGLAGE MAGIQUE PARFAITEMENT PROPORTIONNÉ POUR TÉLÉPHONES */
 @media (max-width: 600px) {
     .scene-container {
-        /* On passe la loupe inversée à 0.22 pour que tout le décor entre à l'écran */
-        transform: scale(0.22) !important;
-        transform-origin: top center !important;
+        /* On écrase le zoom d'origine pour forcer la scène complète à rétrécir */
+        animation: zoomArriereMobile 1.5s ease-out forwards !important;
         width: 100vw !important;
         height: 100vh !important;
     }
 
-    .soleil-bouton {
-        top: 35% !important; /* Pour que le soleil reste bien cliquable au centre */
+    /* On crée une version miniature du zoom arrière spécialement pour le téléphone */
+    @keyframes zoomArriereMobile {
+        0% { transform: scale(1.2); opacity: 0; }
+        100% { transform: scale(0.45); opacity: 1; } /* On s'arrête à 45% au lieu de 100% ! */
     }
 
-    /* 🌳 HARMONIE DES GROS ARBRES : On rétrécit le TRONC et les FEUILLES en même temps ! */
+    .soleil-bouton {
+        top: 25% !important; /* Pour que le soleil reste bien visible et cliquable au centre */
+    }
+
+    /* 🌳 HARMONIE DES GROS ARBRES : On réduit le TRONC et les FEUILLES en même temps */
     .arbre-premier-gauche { 
-        transform: scale(0.4) !important; /* On réduit l'arbre entier à 40% de sa taille */
+        transform: scale(0.45) !important; 
         transform-origin: bottom left !important;
-        left: -40px !important; 
+        left: -30px !important; 
     }
     
     .arbre-premier-droite { 
-        transform: scale(0.4) !important; /* L'arbre de droite rétrécit proportionnellement aussi */
+        transform: scale(0.45) !important; 
         transform-origin: bottom right !important;
-        right: -40px !important; 
+        right: -30px !important; 
     }
 
-    /* 🌷 VISIBILITÉ DE LA FLEUR : On la remonte pour qu'elle soit bien dégagée */
+    /* 🌷 VISIBILITÉ DE LA FLEUR : On la remonte au-dessus de l'herbe */
     .fleur-conteneur { 
         left: 65% !important; 
-        bottom: 30% !important; 
-        transform: scale(1.4) !important; /* On l'agrandit un peu pour admirer ses pétales rouges ! */
+        bottom: 28% !important; 
+        transform: scale(1.3) !important; 
     }
 }
