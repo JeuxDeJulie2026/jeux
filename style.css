@@ -254,5 +254,38 @@ body, html {
     
     /* On rétrécit le soleil bouton */
     .soleil-bouton { width: 90px; height: 90px; font-size: 1rem; top: 12%; }
+/* SCÉNARIO ULTRA-MINI POUR LES ÉCRANS DE TÉLÉPHONES */
+@media (max-width: 600px) {
+    .scene-container {
+        /* On miniaturise toute la scène à 35% de sa taille d'origine */
+        transform: scale(0.35) !important;
+        transform-origin: top center !important;
+        width: 100vw !important;
+        height: 100vh !important;
+    }
+
+    .soleil-bouton {
+        top: 25% !important; /* On descend le soleil pour qu'il reste bien au centre de la vue */
+    }
+
+    /* 🌳 MINI-ARBRES : On réduit les feuilles géantes du premier plan au strict minimum */
+    .feuilles-premier-plan-gauche, .feuilles-premier-plan-droite { 
+        width: 120px !important; 
+        height: 180px !important; 
+    }
+    
+    /* On cache presque les troncs sur les côtés pour libérer tout l'espace visuel */
+    .arbre-premier-gauche { 
+        left: -120px !important; 
+    }
+    .arbre-premier-droite { 
+        right: -120px !important; 
+    }
+
+    /* 🦓 MINI-ZÈBRES : Si besoin, on ajuste aussi leur taille pour le téléphone */
+    .maman-z { font-size: 65px !important; }
+    .bebe-z { font-size: 45px !important; }
+    .cochon-sprinteur { font-size: 40px !important; }
 }
+
 
