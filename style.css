@@ -228,64 +228,39 @@ body, html {
         box-shadow: 0 0 40px #FFEB3B, 0 0 10px #FFF; 
         transform: translateX(-50%) scale(1); 
     }
-/* AJUSTEMENT SPÉCIAL POUR LES ÉCRANS DE TÉLÉPHONES */
+
+
+/* LE RÉGLAGE MAGIQUE PARFAITEMENT PROPORTIONNÉ POUR TÉLÉPHONES */
 @media (max-width: 600px) {
     .scene-container {
-        transform: scale(1);
-    }
-    /* On réduit la taille des gros arbres du premier plan */
-    .feuilles-premier-plan-gauche { width: 200px; height: 300px; }
-    .feuilles-premier-plan-droite { width: 210px; height: 310px; }
-    .arbre-premier-gauche { width: 50px; height: 280px; left: -10px; bottom: -20px; }
-    .arbre-premier-droite { width: 50px; height: 280px; right: -10px; bottom: -20px; }
-    
-    /* On ajuste le départ des animaux pour qu'ils ne marchent pas trop longtemps hors écran */
-    @keyframes marcherZebres {
-        0% { left: -180px; }
-        100% { left: 105%; }
-    }
-    @keyframes courirCochon {
-        0% { left: -100px; }
-        100% { left: 105%; }
-    }
-    
-    /* On adapte la position de la fleur */
-    .fleur-conteneur { left: 65%; bottom: 20%; transform: scale(0.8); }
-    
-    /* On rétrécit le soleil bouton */
-    .soleil-bouton { width: 90px; height: 90px; font-size: 1rem; top: 12%; }
-/* SCÉNARIO ULTRA-MINI POUR LES ÉCRANS DE TÉLÉPHONES */
-@media (max-width: 600px) {
-    .scene-container {
-        /* On miniaturise toute la scène à 35% de sa taille d'origine */
-        transform: scale(0.35) !important;
+        /* On passe la loupe inversée à 0.22 pour que tout le décor entre à l'écran */
+        transform: scale(0.22) !important;
         transform-origin: top center !important;
         width: 100vw !important;
         height: 100vh !important;
     }
 
     .soleil-bouton {
-        top: 25% !important; /* On descend le soleil pour qu'il reste bien au centre de la vue */
+        top: 35% !important; /* Pour que le soleil reste bien cliquable au centre */
     }
 
-    /* 🌳 MINI-ARBRES : On réduit les feuilles géantes du premier plan au strict minimum */
-    .feuilles-premier-plan-gauche, .feuilles-premier-plan-droite { 
-        width: 120px !important; 
-        height: 180px !important; 
+    /* 🌳 HARMONIE DES GROS ARBRES : On rétrécit le TRONC et les FEUILLES en même temps ! */
+    .arbre-premier-gauche { 
+        transform: scale(0.4) !important; /* On réduit l'arbre entier à 40% de sa taille */
+        transform-origin: bottom left !important;
+        left: -40px !important; 
     }
     
-    /* On cache presque les troncs sur les côtés pour libérer tout l'espace visuel */
-    .arbre-premier-gauche { 
-        left: -120px !important; 
-    }
     .arbre-premier-droite { 
-        right: -120px !important; 
+        transform: scale(0.4) !important; /* L'arbre de droite rétrécit proportionnellement aussi */
+        transform-origin: bottom right !important;
+        right: -40px !important; 
     }
 
-    /* 🦓 MINI-ZÈBRES : Si besoin, on ajuste aussi leur taille pour le téléphone */
-    .maman-z { font-size: 65px !important; }
-    .bebe-z { font-size: 45px !important; }
-    .cochon-sprinteur { font-size: 40px !important; }
+    /* 🌷 VISIBILITÉ DE LA FLEUR : On la remonte pour qu'elle soit bien dégagée */
+    .fleur-conteneur { 
+        left: 65% !important; 
+        bottom: 30% !important; 
+        transform: scale(1.4) !important; /* On l'agrandit un peu pour admirer ses pétales rouges ! */
+    }
 }
-
-
