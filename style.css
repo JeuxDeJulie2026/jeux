@@ -38,7 +38,7 @@ body, html {
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden; /* <-- Empêche de voir les animaux cachés sur les côtés ! */
+    overflow: hidden;
     animation: zoomArriere 1.5s ease-out forwards;
 }
 
@@ -221,19 +221,14 @@ body, html {
 }
 
 /* ========================================================== */
-/* 📱       RÉGLAGE FLUIDE SANS REDUCTION POUR TÉLÉPHONES      */
-/* ========================================================== */
-/* ========================================================== */
 /* 📱       RÉGLAGE PARFAIT ET AJUSTÉ POUR TÉLÉPHONES         */
 /* ========================================================== */
 @media (max-width: 600px) {
     .scene-container {
-        /* On retire le scale() pour que la scène occupe tout l'écran du téléphone */
-        transform: none !important;
+        animation: none !important;
         width: 100vw !important;
         height: 100vh !important;
         position: relative !important;
-        /* Cette ligne magique cache TOUT ce qui dépasse sur les côtés (les animaux qui attendent) */
         overflow: hidden !important; 
     }
 
@@ -244,37 +239,45 @@ body, html {
         top: 10% !important;
     }
 
-    /* 🌳 ON COUPE LES GROS ARBRES DE DEVANT POUR VOIR TOUTE LA SAVANE */
     .arbre-premier-gauche, .arbre-premier-droite {
         display: none !important;
     }
 
-    /* 🦓 ON POSITIONNE LES ANIMAUX BIEN CACHÉS HORS DE L'ÉCRAN À GAUCHE */
+    /* 🦓 COULISSES SÉCURISÉES : On les rapproche à -120px pour qu'ils sortent vite ! */
     .defile-animaux {
-        left: -200px !important;
+        left: -120px !important;
         bottom: 20% !important;
     }
-    .cochon-sprinteur {
-        left: -100px !important;
-        bottom: 18% !important;
+    
+    /* On force le déclenchement de la nouvelle marche sur mobile */
+    .anime-active .defile-animaux {
+        animation: marcherZebresMobile 9s linear forwards !important; 
     }
 
-    /* TAILLE ADAPTÉE DES ÉMOJIS SUR MOBILE */
+    .cochon-sprinteur {
+        left: -80px !important;
+        bottom: 18% !important;
+    }
+    
+    /* On force le déclenchement de la nouvelle course sur mobile */
+    .anime-active .cochon-sprinteur {
+        animation: courirCochonMobile 3.5s linear 7.5s forwards !important;
+    }
+
     .maman-z { font-size: 70px !important; }
     .bebe-z { font-size: 45px !important; }
     .cochon-sprinteur { font-size: 45px !important; }
 
-    /* LES NOUVELLES TRAJECTOIRES POUR TRAVERSER TOUT L'ÉCRAN DU TÉLÉPHONE */
-    @keyframes marcherZebres {
-        0% { left: -200px; }
+    /* TRAJECTOIRES UNIQUES POUR MOBILE */
+    @keyframes marcherZebresMobile {
+        0% { left: -120px; }
         100% { left: 105%; }
     }
-    @keyframes courirCochon {
-        0% { left: -100px; }
+    @keyframes courirCochonMobile {
+        0% { left: -80px; }
         100% { left: 105%; }
     }
 
-    /* 🌷 PLACEMENT DE LA FLEUR POUR MOBILE */
     .fleur-conteneur { 
         left: 75% !important; 
         bottom: 18% !important; 
