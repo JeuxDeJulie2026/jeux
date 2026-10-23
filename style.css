@@ -1,0 +1,231 @@
+/* ========================================================== */
+/* 🟦                      FICHIER CSS                        */
+/*         ICI ON COUPE, ON MET EN COULEUR ET ON ANIME        */
+/* ========================================================== */
+.soleil-bouton {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, #FFEB3B, #FF9800);
+    border-radius: 50%;
+    box-shadow: 0 0 60px #FFEB3B, 0 0 20px #FFF;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #7A3B00;
+    font-size: 1.2rem;
+    border: 4px solid #FFF;
+    animation: palpite 2s infinite ease-in-out;
+    z-index: 100;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(180deg, #1A74E2, #63A4FF);
+    font-family: 'Arial', sans-serif;
+}
+
+.scene-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: zoomArriere 1.5s ease-out forwards;
+}
+
+
+.zone-herbe {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 45%;
+    background-color: #4CAF50;
+    border-top: 6px solid #388E3C;
+}
+
+.sentier-sinueux {
+    position: absolute;
+    top: 25%;
+    width: 100%;
+    height: 110px;
+    background-color: #8D6E63;
+    clip-path: ellipse(65% 50% at 50% 50%);
+    transform: skewX(-8deg);
+    z-index: 3;
+}
+
+.arbre-conteneur {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.arbre-tronc {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #5D4037, #3E2723);
+    border-radius: 4px;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+}
+
+.feuilles-fond {
+    width: 280px;
+    height: 260px;
+    background-color: #2E7D32;
+    border-radius: 50% 50% 45% 45%;
+    margin-bottom: -30px;
+    z-index: 2;
+}
+
+.feuilles-premier-plan-gauche {
+    width: 450px;
+    height: 580px;
+    background-color: #43A047;
+    border-radius: 65% 45% 55% 50% / 60% 50% 55% 45%;
+    margin-bottom: -20px;
+    z-index: 6;
+}
+
+.feuilles-premier-plan-droite {
+    width: 480px;
+    height: 600px;
+    background-color: #388E3C;
+    border-radius: 45% 65% 45% 55% / 50% 55% 45% 60%;
+    margin-bottom: -15px;
+    z-index: 6;
+}
+
+.arbre-fond-1 { width: 40px; height: 180px; bottom: 40%; left: 18%; z-index: 1; }
+.arbre-fond-2 { width: 35px; height: 220px; bottom: 40%; left: 55%; z-index: 1; }
+.arbre-premier-gauche { width: 95px; height: 500px; bottom: -50px; left: -30px; z-index: 5; } 
+.arbre-premier-droite { width: 95px; height: 500px; bottom: -50px; right: -30px; z-index: 5; } 
+
+.fleur-conteneur {
+    position: absolute;
+    bottom: 22%;
+    left: 70%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 4;
+    transform-origin: bottom center;
+}
+
+/* La Fleur se plie à 7 secondes pile quand le cochon arrive */
+.anime-active .fleur-conteneur {
+    animation: plierFleur 1.5s ease-in-out 9.8s forwards;
+}
+
+.tige { width: 6px; height: 60px; background-color: #81C784; border-radius: 3px; }
+.tête-fleur { position: relative; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+.coeur-fleur { width: 16px; height: 16px; background-color: #FFEB3B; border-radius: 50%; z-index: 3; }
+.petale { position: absolute; width: 12px; height: 36px; background-color: #E53935; border-radius: 6px; z-index: 2; }
+.p1 { transform: rotate(0deg); } .p2 { transform: rotate(45deg); } .p3 { transform: rotate(90deg); } .p4 { transform: rotate(135deg); }
+
+.roche-grosse {
+    position: absolute;
+    background-color: #CFD8DC;
+    border: 2px solid #B0BEC5;
+    border-radius: 50% 60% 40% 50%;
+    z-index: 4;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.defile-animaux {
+    position: absolute;
+    bottom: 24%; 
+    left: -400px; 
+    display: flex;
+    align-items: flex-end;
+    gap: 30px;
+    z-index: 4;
+}
+
+.anime-active .defile-animaux {
+    animation: marcherZebres 9s linear forwards; 
+}
+
+.un-animaux {
+    display: inline-block;
+    user-select: none;
+}
+
+.maman-z { font-size: 105px; animation: trotterZ 0.6s infinite ease-in-out; }
+.bebe-z { font-size: 70px; animation: trotterZ 0.4s infinite ease-in-out; }
+
+.cochon-sprinteur {
+    position: absolute;
+    bottom: 22%;
+    left: -150px;
+    font-size: 65px;
+    z-index: 4;
+}
+
+/* Le Cochon attend 4.5 secondes (la moitié du chemin des zèbres) */
+.anime-active .cochon-sprinteur {
+    animation: courirCochon 3.5s linear 7.5s forwards;
+}
+
+.cochon-corps {
+    display: inline-block;
+    animation: trotterCochon 0.2s infinite ease-in-out; 
+}
+
+@keyframes marcherZebres {
+    0% { left: -400px; }
+    100% { left: 105%; }
+}
+
+@keyframes courirCochon {
+    0% { left: -150px; }
+    100% { left: 105%; }
+}
+
+@keyframes plierFleur {
+    0% { transform: rotate(0deg); }
+    20% { transform: rotate(60deg); }
+    70% { transform: rotate(60deg); }
+    90% { transform: rotate(-10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes trotterZ {
+    0% { transform: scaleX(-1) translateY(0); }
+    50% { transform: scaleX(-1) translateY(-12px); }
+    100% { transform: scaleX(-1) translateY(0); }
+}
+
+@keyframes trotterCochon {
+    0% { transform: scaleX(-1) translateY(0); }
+    50% { transform: scaleX(-1) translateY(-18px); }
+    100% { transform: scaleX(-1) translateY(0); }
+}
+
+@keyframes zoomArriere {
+    0% { transform: scale(1.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes palpite {
+    0% { 
+        box-shadow: 0 0 40px #FFEB3B, 0 0 10px #FFF; 
+        transform: translateX(-50%) scale(1); 
+    }
+    50% { 
+        box-shadow: 0 0 90px #FFFF00, 0 0 40px #FF9800, 0 0 20px #FFF; 
+        transform: translateX(-50%) scale(1.08); /* Effet de flash et grossissement */
+    }
+    100% { 
+        box-shadow: 0 0 40px #FFEB3B, 0 0 10px #FFF; 
+        transform: translateX(-50%) scale(1); 
+    }
+}

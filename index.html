@@ -3,144 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Les Jeux de Julie</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            background-color: white;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-        }
-
-        /* Le rideau bleu accéléré à 8 secondes */
-        .rideau-bleu {
-            position: fixed;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #0074D9;
-            animation: descendreDoucement 8s forwards;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        h1 {
-            color: white;
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-
-        .lien-fleur {
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 200px;
-            justify-content: flex-start;
-        }
-
-        .fleur-bloc {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* La tige apparaît à 8s */
-        .tige {
-            width: 8px;
-            height: 60px;
-            background-color: #2ECC40;
-            opacity: 0;
-            animation: apparaitre 0.4s 8s forwards;
-            margin-top: -10px;
-        }
-
-        /* Le cœur jaune apparaît à 8.5s */
-        .coeur {
-            width: 30px;
-            height: 30px;
-            background-color: #FFDC00;
-            border-radius: 50%;
-            z-index: 5;
-            position: absolute;
-            opacity: 0;
-            animation: apparaitre 0.4s 8.5s forwards;
-        }
-
-        .petale {
-            position: absolute;
-            width: 28px;
-            height: 28px;
-            background-color: #FF4136;
-            border-radius: 50%;
-            opacity: 0;
-            z-index: 4;
-        }
-
-        /* --- SÉQUENCE EN SENS HORAIRE --- */
-        
-        /* 1. Haut (Midi) à 9s */
-        .p1 { top: 12px; animation: apparaitre 0.4s 9s forwards; }
-        
-        /* 2. Droite (3h) à 9.4s */
-        .p4 { right: 12px; animation: apparaitre 0.4s 9.4s forwards; }
-        
-        /* 3. Bas (6h) à 9.8s */
-        .p2 { bottom: 12px; animation: apparaitre 0.4s 9.8s forwards; }
-        
-        /* 4. Gauche (9h) à 10.2s */
-        .p3 { left: 12px; animation: apparaitre 0.4s 10.2s forwards; }
-
-        /* Texte final à 11s */
-        .clic-texte {
-            color: #FFDC00;
-            font-weight: bold;
-            font-size: 1.3rem;
-            margin-top: 15px;
-            opacity: 0;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            animation: apparaitre 0.6s 11s forwards;
-        }
-
-        @keyframes descendreDoucement {
-            to { top: 0; }
-        }
-
-        @keyframes apparaitre {
-            to { opacity: 1; }
-        }
-    </style>
+    <title>Laboratoire Secret - Les Jeux de Julie</title>
+    
+    <!-- LE PONT INVISIBLE VERS TON RECUEIL DE STYLE -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="rideau-bleu">
+    <div id="scene" class="scene-container">
         
-        <h1>Jeux de Julie</h1>
+        <!-- Le Soleil bouton magique -->
+        <div class="soleil-bouton" id="boutonSoleil">ENTRER</div>
 
-        <a href="page-jeu.html" class="lien-fleur">
-            <div class="fleur-bloc">
-                <div class="coeur"></div>
-                <!-- Les pétales sont placés dans l'ordre de leur apparition -->
-                <div class="petale p1"></div>
-                <div class="petale p4"></div>
-                <div class="petale p2"></div>
-                <div class="petale p3"></div>
-            </div>
+        <!-- LES 2 ARBRES DE FOND -->
+        <div class="arbre-conteneur arbre-fond-1"><div class="feuilles-fond"></div><div class="arbre-tronc"></div></div>
+        <div class="arbre-conteneur arbre-fond-2"><div class="feuilles-fond" style="background-color: #1B5E20; width: 250px;"></div><div class="arbre-tronc"></div></div>
+
+        <!-- LE DÉCOR DU BAS -->
+        <div class="zone-herbe">
+            <div class="sentier-sinueux"></div>
+            <div class="roche-grosse" style="width: 35px; height: 22px; top: 12%; left: 24%;"></div>
+            <div class="roche-grosse" style="width: 42px; height: 26px; top: 55%; left: 45%;"></div>
+            <div class="roche-grosse" style="width: 30px; height: 18px; top: 25%; left: 75%;"></div>
+        </div>
+
+        <!-- LE DÉFILÉ DES ZÈBRES -->
+        <div class="defile-animaux">
+            <div class="un-animaux bebe-z">🦓</div>
+            <div class="un-animaux maman-z">🦓</div>
+        </div>
+
+        <!-- LE PETIT COCHON EN RETARD -->
+        <div class="cochon-sprinteur">
+            <div class="cochon-corps">🐖</div>
+        </div>
+
+        <!-- LA FLEUR À PÉTALES ROUGES -->
+        <div class="fleur-conteneur">
+            <div class="tête-fleur"><div class="coeur-fleur"></div><div class="petale p1"></div><div class="petale p2"></div><div class="petale p3"></div><div class="petale p4"></div></div>
             <div class="tige"></div>
-            <div class="clic-texte">Clique ici !</div>
-        </a>
+        </div>
+
+        <!-- LES 2 GROS ARBRES DE PREMIER PLAN -->
+        <div class="arbre-conteneur arbre-premier-gauche"><div class="feuilles-premier-plan-gauche"></div><div class="arbre-tronc"></div></div>
+        <div class="arbre-conteneur arbre-premier-droite"><div class="feuilles-premier-plan-droite"></div><div class="arbre-tronc"></div></div>
 
     </div>
 
+    <!-- CONFIGURATION DES SONS MP3 -->
+    <audio id="sonBranche" src="branche.mp3"></audio>
+    <audio id="sonCochon" src="cochon.mp3"></audio>
+    <audio id="sonVent" src="vent.mp3"></audio>
+
+    <script>
+        // ==========================================================
+        // 🟨                  ZONE JAVASCRIPT                       
+        //         ICI ON GÈRE LES CHRONOS ET LES SONS MP3           
+        // ==========================================================
+        document.querySelector('.soleil-bouton').onclick = function() {
+            
+            document.querySelector('.scene-container').classList.add('anime-active');
+            
+            // 1. Les zèbres démarrent tout de suite
+            setTimeout(function() { 
+                document.getElementById("sonBranche").play(); 
+            }, 0);
+            
+            // 2. Le cochon démarre quand le dernier zèbre est au milieu (4.5 secondes)
+            setTimeout(function() { 
+                document.getElementById("sonCochon").play(); 
+            }, 7800);
+
+            // 3. Le cochon arrive sur la fleur (7 secondes) -> Le vent souffle
+            setTimeout(function() { 
+                document.getElementById("sonVent").play(); 
+            }, 9800);
+
+            // 4. Redirection automatique vers le menu des jeux (9.5 secondes)
+            setTimeout(function() {
+                window.location.href = "page-jeu.html";
+            }, 12500);
+        };
+    </script>
 </body>
 </html>
