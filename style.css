@@ -121,15 +121,30 @@ body, html {
     transform-origin: bottom center;
 }
 
+/* 1. L'animation d'origine du PC doit viser TOUT le conteneur */
 .anime-active .fleur-conteneur {
     animation: plierFleur 1.5s ease-in-out 9.8s forwards;
 }
 
-.tige { width: 6px; height: 60px; background-color: #81C784; border-radius: 3px; }
-.tête-fleur { position: relative; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
-.coeur-fleur { width: 16px; height: 16px; background-color: #FFEB3B; border-radius: 50%; z-index: 3; }
-.petale { position: absolute; width: 12px; height: 36px; background-color: #E53935; border-radius: 6px; z-index: 2; }
-.p1 { transform: rotate(0deg); } .p2 { transform: rotate(45deg); } .p3 { transform: rotate(90deg); } .p4 { transform: rotate(135deg); }
+/* 2. La tête de la fleur sans accent */
+.tete-fleur { 
+    position: relative; 
+    width: 40px; 
+    height: 40px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    z-index: 1; /* Force la tête à rester sous le cœur */
+}
+
+/* 3. Le cœur jaune (on augmente son z-index pour qu'il repasse DEVANT) */
+.coeur-fleur { 
+    width: 16px; 
+    height: 16px; 
+    background-color: #FFEB3B; 
+    border-radius: 50%; 
+    z-index: 10; /* Le cœur passe au premier plan */
+}
 
 .roche-grosse {
     position: absolute;
@@ -274,7 +289,8 @@ body, html {
        
 
 }
-       /* 🌸 LA FLEUR SUR MOBILE : Position de base pour tout le bloc */
+
+          /* 🌸 LA FLEUR SUR MOBILE : Position de base pour tout le bloc */
     .scene-container .fleur-conteneur { 
         left: 75% !important; 
         bottom: 20% !important; 
@@ -282,7 +298,7 @@ body, html {
         transform-origin: bottom center !important;
     }
 
-    /* 🌬️ QUAND LE VENT SOUFFLE : On vise "tete-fleur" sans accent ! */
+    /* 🌬️ QUAND LE VENT SOUFFLE SUR MOBILE */
     .scene-container .fleur-conteneur .tete-fleur.fleur-pliee {
         animation: plierTêteMobile 1.5s ease-in-out forwards !important;
         transform-origin: bottom center !important;
@@ -297,4 +313,3 @@ body, html {
         100% { transform: rotate(0deg); }
     }
 }
-
