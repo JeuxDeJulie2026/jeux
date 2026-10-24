@@ -223,9 +223,6 @@ body, html {
 /* ========================================================== */
 /* 📱       RÉGLAGE PARFAIT ET AJUSTÉ POUR TÉLÉPHONES         */
 /* ========================================================== */
-/* ========================================================== */
-/* 📱       RÉGLAGE PARFAIT ET AJUSTÉ POUR TÉLÉPHONES         */
-/* ========================================================== */
 @media (max-width: 600px) {
     .scene-container {
         animation: none !important;
@@ -247,7 +244,7 @@ body, html {
         display: none !important;
     }
 
-        /* 🦓 LE GROUPE DES ZÈBRES : Position de départ cachée sur mobile */
+    /* 🦓 LE GROUPE DES ZÈBRES : Position de départ cachée sur mobile */
     .scene-container .defile-animaux {
         left: -250px !important;
         bottom: 20% !important;
@@ -264,21 +261,12 @@ body, html {
     
     .cochon-corps { font-size: 45px !important; animation: trotterCochon 0.2s infinite ease-in-out !important; }
 
-    }
-    
-    /* 🚀 RE-DÉCLENCHEMENT DE LA COURSE DU COCHON AU CLIC */
-    .scene-container.anime-active .cochon-sprinteur {
-        animation: courirCochonMobile 3.5s linear 7.5s forwards !important;
-    }
-    
-    .cochon-corps { font-size: 45px !important; animation: trotterCochon 0.2s infinite ease-in-out !important; }
-
-    /* 🗺️ TRAJECTOIRES CORRIGÉES DU DÉFILÉ POUR ÉCRAN MOBILE */
-    @keyframes marcherZebresMobile {
+    /* 🗺️ TRAJECTOIRES DU DÉFILÉ SUR MOBILE (SYNCHRONISÉES AVEC LES ORDERS JS) */
+    @keyframes marcherZebres {
         0% { left: -250px; }
         100% { left: 105%; }
     }
-    @keyframes courirCochonMobile {
+    @keyframes courirCochon {
         0% { left: -120px; }
         100% { left: 105%; }
     }
