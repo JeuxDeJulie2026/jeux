@@ -55,12 +55,12 @@
     <audio id="sonCochon" src="cochon.mp3"></audio>
     <audio id="sonVent" src="vent.mp3"></audio>
 
-           <script>
+    <script>
         document.querySelector('.soleil-bouton').onclick = function() {
             
             document.querySelector('.scene-container').classList.add('anime-active');
             
-            // 🚀 ON CORRIGE LES ORDERS DIRECTS ICI
+            // 🚀 ON PROGRAMME LES ANIMATIONS DIRECTES ICI
             document.querySelector('.defile-animaux').style.animation = "marcherZebres 9s linear forwards";
             document.querySelector('.cochon-sprinteur').style.animation = "courirCochon 3.5s linear 7.5s forwards";
             
@@ -74,12 +74,16 @@
                 document.getElementById("sonCochon").play(); 
             }, 7800);
 
-            // 3. Le cochon arrive sur la fleur -> Le vent souffle
+            // 3. Le cochon arrive sur la fleur -> Le vent souffle ET la fleur se plie !
             setTimeout(function() { 
                 document.getElementById("sonVent").play(); 
+                // 🌸 ORDRE DIRECT À LA FLEUR DE PLIER AU VENT SUR MOBILE
+                if (window.innerWidth <= 600) {
+                    document.querySelector('.fleur-conteneur').style.animation = "plierFleurMobile 1.5s ease-in-out forwards";
+                }
             }, 9800);
 
-             // 4. Redirection automatique vers le menu des jeux
+            // 4. Redirection automatique vers le menu des jeux
             setTimeout(function() {
                 window.location.href = "page-jeu.html";
             }, 12500);
@@ -87,6 +91,3 @@
     </script>
 </body>
 </html>
-
-
-
