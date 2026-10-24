@@ -247,15 +247,10 @@ body, html {
         display: none !important;
     }
 
-    /* 🦓 LE GROUPE DES ZÈBRES : Position de départ cachée sur mobile */
+        /* 🦓 LE GROUPE DES ZÈBRES : Position de départ cachée sur mobile */
     .scene-container .defile-animaux {
         left: -250px !important;
         bottom: 20% !important;
-    }
-    
-    /* 🚀 RE-DÉCLENCHEMENT DE L'ANIMATION MOBILE AU CLIC */
-    .scene-container.anime-active .defile-animaux {
-        animation: marcherZebresMobile 9s linear forwards !important; 
     }
 
     .maman-z { font-size: 65px !important; animation: trotterZ 0.6s infinite ease-in-out !important; }
@@ -265,6 +260,10 @@ body, html {
     .scene-container .cochon-sprinteur {
         left: -120px !important;
         bottom: 18% !important;
+    }
+    
+    .cochon-corps { font-size: 45px !important; animation: trotterCochon 0.2s infinite ease-in-out !important; }
+
     }
     
     /* 🚀 RE-DÉCLENCHEMENT DE LA COURSE DU COCHON AU CLIC */

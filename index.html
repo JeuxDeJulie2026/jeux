@@ -55,7 +55,7 @@
     <audio id="sonCochon" src="cochon.mp3"></audio>
     <audio id="sonVent" src="vent.mp3"></audio>
 
-    <script>
+       <script>
         // ==========================================================
         // 🟨                  ZONE JAVASCRIPT                       
         //         ICI ON GÈRE LES CHRONOS ET LES SONS MP3           
@@ -63,6 +63,10 @@
         document.querySelector('.soleil-bouton').onclick = function() {
             
             document.querySelector('.scene-container').classList.add('anime-active');
+            
+            // 🚀 FORCE LE DÉMARRAGE DES ANIMATIONS SUR MOBILE ÉGALEMENT
+            document.querySelector('.defile-animaux').style.animation = "marcherZebres 9s linear forwards";
+            document.querySelector('.cochon-sprinteur').style.animation = "courirCochon 3.5s linear 7.5s forwards";
             
             // 1. Les zèbres démarrent tout de suite
             setTimeout(function() { 
@@ -85,5 +89,6 @@
             }, 12500);
         };
     </script>
+ 
 </body>
 </html>
