@@ -271,7 +271,10 @@ body, html {
         100% { left: 105%; }
     }
 
-        /* 🌸 LA FLEUR SUR MOBILE : Position de base pour tout le bloc */
+       
+
+}
+       /* 🌸 LA FLEUR SUR MOBILE : Position de base pour tout le bloc */
     .scene-container .fleur-conteneur { 
         left: 75% !important; 
         bottom: 20% !important; 
@@ -279,13 +282,13 @@ body, html {
         transform-origin: bottom center !important;
     }
 
-    /* 🌬️ QUAND LE VENT SOUFFLE : Seule la tête pivote sur son axe ! */
-    .scene-container .fleur-conteneur .tête-fleur.fleur-pliee {
+    /* 🌬️ QUAND LE VENT SOUFFLE : On vise "tete-fleur" sans accent ! */
+    .scene-container .fleur-conteneur .tete-fleur.fleur-pliee {
         animation: plierTêteMobile 1.5s ease-in-out forwards !important;
         transform-origin: bottom center !important;
     }
 
-    /* Trajectoire de rotation pure, sans scale pour ne pas bloquer le téléphone */
+    /* Trajectoire de rotation pure */
     @keyframes plierTêteMobile {
         0% { transform: rotate(0deg); }
         20% { transform: rotate(60deg); }
@@ -293,5 +296,5 @@ body, html {
         90% { transform: rotate(-10deg); }
         100% { transform: rotate(0deg); }
     }
-
 }
+
