@@ -74,12 +74,13 @@
                 document.getElementById("sonCochon").play(); 
             }, 7800);
 
-            // 3. Le cochon arrive sur la fleur -> Le vent souffle ET la fleur se plie !
+             // 3. Le cochon arrive sur la fleur -> Le vent souffle ET la fleur se plie !
             setTimeout(function() { 
                 document.getElementById("sonVent").play(); 
-                // 🌸 ON ACTIVE LE PLIAGE DE LA FLEUR POUR TOUS LES ÉCRANS
-                document.querySelector('.fleur-conteneur').classList.add('fleur-pliee');
+                // 🌸 ON FAIT PLIER UNIQUEMENT LA TÊTE DE LA FLEUR
+                document.querySelector('.fleur-conteneur .tête-fleur').classList.add('fleur-pliee');
             }, 9800);
+
 
             // 4. Redirection automatique vers le menu des jeux
             setTimeout(function() {
