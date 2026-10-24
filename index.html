@@ -55,7 +55,7 @@
     <audio id="sonCochon" src="cochon.mp3"></audio>
     <audio id="sonVent" src="vent.mp3"></audio>
 
-    <script>
+        <script>
         document.querySelector('.soleil-bouton').onclick = function() {
             
             document.querySelector('.scene-container').classList.add('anime-active');
@@ -77,10 +77,8 @@
             // 3. Le cochon arrive sur la fleur -> Le vent souffle ET la fleur se plie !
             setTimeout(function() { 
                 document.getElementById("sonVent").play(); 
-                // 🌸 ORDRE DIRECT À LA FLEUR DE PLIER AU VENT SUR MOBILE
-                if (window.innerWidth <= 600) {
-                    document.querySelector('.fleur-conteneur').style.animation = "plierFleurMobile 1.5s ease-in-out forwards";
-                }
+                // 🌸 ON ACTIVE LE PLIAGE DE LA FLEUR POUR TOUS LES ÉCRANS
+                document.querySelector('.fleur-conteneur').classList.add('fleur-pliee');
             }, 9800);
 
             // 4. Redirection automatique vers le menu des jeux
@@ -89,5 +87,6 @@
             }, 12500);
         };
     </script>
+
 </body>
 </html>
