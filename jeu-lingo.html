@@ -122,14 +122,32 @@
         .mal-place { background-color: #FF851B !important; border-color: #FF851B !important; } 
         .incorrect { background-color: #FF4136 !important; border-color: #FF4136 !important; } 
 
-        .clavier-virtuel {
+               .clavier-virtuel {
             display: flex;
             flex-direction: column;
             gap: 8px;
             max-width: 500px;
             width: 100%;
+            box-sizing: border-box;
+            padding: 0 10px;
             margin-top: 15px;
         }
+
+        .touche {
+            background-color: #7FDBFF;
+            color: #001f3f;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 5px; /* Légèrement moins large pour le téléphone */
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1; /* Permet aux touches de se partager équitablement l'espace */
+            text-align: center;
+            user-select: none;
+            transition: background-color 0.1s;
+        }
+
 
         .ligne-clavier {
             display: flex;
