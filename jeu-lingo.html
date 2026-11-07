@@ -36,11 +36,14 @@
     </style>
 </head>
 <body>
+    <body>
     <a href="page-jeu.html" class="btn-retour">✉️ Menu</a>
     <h1>Jeu Lingo</h1>
     <p>Devinez le mot secret en 5 lettres !</p>
+    
     <div class="zone-jeu">
         <div class="grille-lingo" id="grille"></div>
+        <!-- Cette boîte s'affiche uniquement sur PC -->
         <div class="legende-couleurs">
             <h3 style="margin-top: 0; color: #FFDC00; font-size: 1.1rem; margin-bottom: 15px;">Signification :</h3>
             <div class="item-legende"><div class="pastille correct"></div><span>Bonne place !</span></div>
@@ -48,6 +51,8 @@
             <div class="item-legende"><div class="pastille incorrect"></div><span>N'existe pas.</span></div>
         </div>
     </div>
+
+    <!-- Le clavier virtuel -->
     <div class="clavier-virtuel">
         <div class="ligne-clavier">
             <button class="touche" onclick="taperLettre('Q')">Q</button><button class="touche" onclick="taperLettre('W')">W</button><button class="touche" onclick="taperLettre('E')">E</button><button class="touche" onclick="taperLettre('R')">R</button><button class="touche" onclick="taperLettre('T')">T</button><button class="touche" onclick="taperLettre('Y')">Y</button><button class="touche" onclick="taperLettre('U')">U</button><button class="touche" onclick="taperLettre('I')">I</button><button class="touche" onclick="taperLettre('O')">O</button><button class="touche" onclick="taperLettre('P')">P</button>
@@ -59,6 +64,14 @@
             <button class="touche touche-large" onclick="effacerLettre()">⌫</button><button class="touche" onclick="taperLettre('Z')">Z</button><button class="touche" onclick="taperLettre('X')">X</button><button class="touche" onclick="taperLettre('C')">C</button><button class="touche" onclick="taperLettre('V')">V</button><button class="touche" onclick="taperLettre('B')">B</button><button class="touche" onclick="taperLettre('N')">N</button><button class="touche" onclick="taperLettre('M')">M</button><button class="touche touche-large" onclick="validerMot()">OK</button>
         </div>
     </div>
+
+    <!-- 📱 Petite légende compacte ajoutée juste sous le clavier pour le téléphone -->
+    <div style="margin-top: 15px; display: flex; gap: 15px; font-size: 0.8rem; justify-content: center; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 5px;"><div style="width: 12px; height: 12px; background-color: #2ECC40; border-radius: 3px;"></div><span>Bonne place</span></div>
+        <div style="display: flex; align-items: center; gap: 5px;"><div style="width: 12px; height: 12px; background-color: #FF851B; border-radius: 3px;"></div><span>Mal placée</span></div>
+        <div style="display: flex; align-items: center; gap: 5px;"><div style="width: 12px; height: 12px; background-color: #FF4136; border-radius: 3px;"></div><span>Inexistant</span></div>
+    </div>
+
     <script>
         const NOMBRE_ESSAIS = 6; const LONGUEUR_MOT = 5; const grille = document.getElementById('grille');
         const LISTE_MOTS = ["SAPIN", "GRIVE", "MERLE", "HIBOU", "AIGLE", "CYGNE", "LAPIN", "ZEBRE", "HERBE", "POMME", "FLEUR", "FORET", "JOUER", "CHIEN"];
