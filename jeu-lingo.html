@@ -7,7 +7,7 @@
     <style>
         body {
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             min-height: 100vh;
             background-color: #001f3f;
             font-family: Arial, sans-serif;
@@ -17,26 +17,30 @@
             align-items: center;
             justify-content: flex-start;
             position: relative;
+            box-sizing: border-box;
         }
 
         h1 {
             color: #FFDC00;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            margin-top: 80px;
+            margin-top: 60px;
             margin-bottom: 5px;
+            font-size: 2rem;
         }
 
         p {
-            margin-bottom: 25px;
+            margin-top: 0;
+            margin-bottom: 15px;
             color: #7FDBFF;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
+        /* Bouton Menu en haut à droite */
         .btn-retour {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
+            top: 15px;
+            right: 15px;
+            padding: 8px 15px;
             background-color: #FFDC00;
             color: #001f3f;
             text-decoration: none;
@@ -56,33 +60,37 @@
             color: white;
         }
 
+        /* Zone centrale : Grille + Légende côte à côte */
         .zone-jeu {
             display: flex;
             align-items: center;
-            gap: 40px;
-            margin-bottom: 25px;
+            gap: 30px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
             justify-content: center;
+            width: 100%;
+            max-width: 500px;
         }
 
+        /* Grille pour les tentatives de mots */
         .grille-lingo {
             display: grid;
             grid-template-rows: repeat(6, 1fr);
-            gap: 10px;
+            gap: 8px;
         }
 
         .ligne-mot {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
+            gap: 8px;
         }
 
         .lettre {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border: 2px solid #7FDBFF;
             border-radius: 8px;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
             text-transform: uppercase;
             display: flex;
@@ -93,19 +101,21 @@
             color: white;
         }
 
+        /* Panneau Explication des Couleurs (PC) */
         .legende-couleurs {
             background-color: rgba(255, 255, 255, 0.1);
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            max-width: 250px;
+            max-width: 240px;
         }
 
         .item-legende {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
         }
 
         .item-legende:last-child {
@@ -113,46 +123,33 @@
         }
 
         .pastille {
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            flex-shrink: 0;
         }
 
+        /* Styles pour les indices de couleur */
         .correct { background-color: #2ECC40 !important; border-color: #2ECC40 !important; } 
         .mal-place { background-color: #FF851B !important; border-color: #FF851B !important; } 
         .incorrect { background-color: #FF4136 !important; border-color: #FF4136 !important; } 
 
-               .clavier-virtuel {
+        /* Clavier Virtuel */
+        .clavier-virtuel {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            max-width: 500px;
+            gap: 6px;
             width: 100%;
+            max-width: 460px;
+            margin-top: 5px;
             box-sizing: border-box;
-            padding: 0 10px;
-            margin-top: 15px;
         }
-
-        .touche {
-            background-color: #7FDBFF;
-            color: #001f3f;
-            border: none;
-            border-radius: 6px;
-            padding: 12px 5px; /* Légèrement moins large pour le téléphone */
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            flex: 1; /* Permet aux touches de se partager équitablement l'espace */
-            text-align: center;
-            user-select: none;
-            transition: background-color 0.1s;
-        }
-
 
         .ligne-clavier {
             display: flex;
             justify-content: center;
-            gap: 6px;
+            gap: 4px;
+            width: 100%;
         }
 
         .touche {
@@ -160,11 +157,11 @@
             color: #001f3f;
             border: none;
             border-radius: 6px;
-            padding: 12px 10px;
+            padding: 12px 0;
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            min-width: 35px;
+            flex: 1;
             text-align: center;
             user-select: none;
             transition: background-color 0.1s;
@@ -176,187 +173,41 @@
         }
 
         .touche-large {
-            min-width: 65px;
+            flex: 1.5;
             background-color: #FFDC00;
+        }
+
+        /* 📱 AJUSTEMENTS SÉCURITÉ POUR ÉCRANS MOBILES (Téléphones) */
+        @media (max-width: 600px) {
+            h1 { margin-top: 50px; font-size: 1.6rem; }
+            p { margin-bottom: 8px; font-size: 0.9rem; }
+            
+            /* 1. On cache la grosse boîte de légende grise pour gagner toute la hauteur ! */
+            .legende-couleurs {
+                display: none;
+            }
+
+            /* 2. On réduit légèrement la taille des carrés de la grille */
+            .lettre {
+                width: 38px;
+                height: 38px;
+                font-size: 1.3rem;
+                border-radius: 6px;
+            }
+
+            /* 3. On force le clavier à occuper proprement la largeur sans déborder à gauche */
+            .clavier-virtuel {
+                padding: 0 4px;
+                gap: 5px;
+            }
+            .ligne-clavier {
+                gap: 3px;
+            }
+            .touche {
+                padding: 10px 0;
+                font-size: 0.85rem; /* Un tout petit peu plus petit pour le Q-W-E-R-T-Y-U-I-O-P */
+                border-radius: 4px;
+            }
         }
     </style>
 </head>
-<body>
-
-    <a href="page-jeu.html" class="btn-retour">✉️ Menu</a>
-
-    <h1>Jeu Lingo</h1>
-    <p>Devinez le mot secret en 5 lettres !</p>
-
-    <div class="zone-jeu">
-        <div class="grille-lingo" id="grille"></div>
-
-        <div class="legende-couleurs">
-            <h3 style="margin-top: 0; color: #FFDC00; font-size: 1.1rem; margin-bottom: 15px;">Signification des couleurs :</h3>
-            <div class="item-legende">
-                <div class="pastille correct"></div>
-                <span>Bonne lettre, <strong>bonne place</strong> !</span>
-            </div>
-            <div class="item-legende">
-                <div class="pastille mal-place"></div>
-                <span>Bonne lettre, <strong>mal placée</strong>.</span>
-            </div>
-            <div class="item-legende">
-                <div class="pastille incorrect"></div>
-                <span>La lettre <strong>n'existe pas</strong>.</span>
-            </div>
-        </div>
-    </div>
-
-       <!-- Zone du Clavier Virtuel Visuel Corrigé avec le M ! -->
-    <div class="clavier-virtuel">
-        <div class="ligne-clavier">
-            <button class="touche" onclick="taperLettre('Q')">Q</button>
-            <button class="touche" onclick="taperLettre('W')">W</button>
-            <button class="touche" onclick="taperLettre('E')">E</button>
-            <button class="touche" onclick="taperLettre('R')">R</button>
-            <button class="touche" onclick="taperLettre('T')">T</button>
-            <button class="touche" onclick="taperLettre('Y')">Y</button>
-            <button class="touche" onclick="taperLettre('U')">U</button>
-            <button class="touche" onclick="taperLettre('I')">I</button>
-            <button class="touche" onclick="taperLettre('O')">O</button>
-            <button class="touche" onclick="taperLettre('P')">P</button>
-        </div>
-        <div class="ligne-clavier">
-            <button class="touche" onclick="taperLettre('A')">A</button>
-            <button class="touche" onclick="taperLettre('S')">S</button>
-            <button class="touche" onclick="taperLettre('D')">D</button>
-            <button class="touche" onclick="taperLettre('F')">F</button>
-            <button class="touche" onclick="taperLettre('G')">G</button>
-            <button class="touche" onclick="taperLettre('H')">H</button>
-            <button class="touche" onclick="taperLettre('J')">J</button>
-            <button class="touche" onclick="taperLettre('K')">K</button>
-            <button class="touche" onclick="taperLettre('L')">L</button>
-        </div>
-        <div class="ligne-clavier">
-            <button class="touche touche-large" onclick="effacerLettre()">⌫</button>
-            <button class="touche" onclick="taperLettre('Z')">Z</button>
-            <button class="touche" onclick="taperLettre('X')">X</button>
-            <button class="touche" onclick="taperLettre('C')">C</button>
-            <button class="touche" onclick="taperLettre('V')">V</button>
-            <button class="touche" onclick="taperLettre('B')">B</button>
-            <button class="touche" onclick="taperLettre('N')">N</button>
-            <button class="touche" onclick="taperLettre('M')">M</button>
-            <button class="touche touche-large" onclick="validerMot()">OK</button>
-        </div>
-    </div>
-
-        <script>
-        const NOMBRE_ESSAIS = 6;
-        const LONGUEUR_MOT = 5;
-        const grille = document.getElementById('grille');
-
-        // Ta toute nouvelle liste de mots secrets sur la nature !
-        const LISTE_MOTS = ["SAPIN", "GRIVE", "MERLE", "HIBOU", "AIGLE", "CYGNE", "LAPIN", "ZEBRE", "HERBE", "POMME", "FLEUR", "FORET", "JOUER", "CHIEN"];
-        let motSecret = LISTE_MOTS[Math.floor(Math.random() * LISTE_MOTS.length)];
-        
-        let ligneActuelle = 0;
-        let lettreActuelle = 0;
-        let essaiCourant = "";
-
-        for (let i = 0; i < NOMBRE_ESSAIS; i++) {
-            const ligne = document.createElement('div');
-            ligne.className = 'ligne-mot';
-            
-            for (let j = 0; j < LONGUEUR_MOT; j++) {
-                const caseLettre = document.createElement('div');
-                caseLettre.className = 'lettre';
-                caseLettre.id = `case-${i}-${j}`;
-                ligne.appendChild(caseLettre);
-            }
-            grille.appendChild(ligne);
-        }
-
-        function taperLettre(lettre) {
-            if (lettreActuelle < LONGUEUR_MOT) {
-                const caseActive = document.getElementById(`case-${ligneActuelle}-${lettreActuelle}`);
-                caseActive.textContent = lettre;
-                essaiCourant += lettre;
-                lettreActuelle++;
-            }
-        }
-
-        function effacerLettre() {
-            if (lettreActuelle > 0) {
-                lettreActuelle--;
-                essaiCourant = essaiCourant.slice(0, -1);
-                const caseActive = document.getElementById(`case-${ligneActuelle}-${lettreActuelle}`);
-                caseActive.textContent = "";
-            }
-        }
-
-        function validerMot() {
-            if (essaiCourant.length !== LONGUEUR_MOT) {
-                alert("Le mot doit faire exactement 5 lettres !");
-                return;
-            }
-
-            let lettresSecretesTrouvees = Array(LONGUEUR_MOT).fill(false);
-            let statutsLigne = Array(LONGUEUR_MOT).fill("incorrect");
-
-            for (let j = 0; j < LONGUEUR_MOT; j++) {
-                if (essaiCourant[j] === motSecret[j]) {
-                    statutsLigne[j] = "correct";
-                    lettresSecretesTrouvees[j] = true;
-                }
-            }
-
-            for (let j = 0; j < LONGUEUR_MOT; j++) {
-                if (statutsLigne[j] === "correct") continue;
-
-                for (let k = 0; k < LONGUEUR_MOT; k++) {
-                    if (!lettresSecretesTrouvees[k] && essaiCourant[j] === motSecret[k]) {
-                        statutsLigne[j] = "mal-place";
-                        lettresSecretesTrouvees[k] = true;
-                        break;
-                    }
-                }
-            }
-
-            for (let j = 0; j < LONGUEUR_MOT; j++) {
-                const caseCible = document.getElementById(`case-${ligneActuelle}-${j}`);
-                caseCible.classList.add(statutsLigne[j]);
-            }
-
-            if (essaiCourant === motSecret) {
-                setTimeout(() => {
-                    alert("🎉 Félicitations Julie ! Tu as trouvé le mot secret : " + motSecret + " !");
-                    recommencerJeu();
-                }, 300);
-                return;
-            }
-
-            ligneActuelle++;
-            lettreActuelle = 0;
-            essaiCourant = "";
-
-            if (ligneActuelle >= NOMBRE_ESSAIS) {
-                setTimeout(() => {
-                    alert("😢 Oh non ! Tu as épuisé tes essais. Le mot était : " + motSecret);
-                    recommencerJeu();
-                }, 300);
-            }
-        }
-
-        function recommencerJeu() {
-            motSecret = LISTE_MOTS[Math.floor(Math.random() * LISTE_MOTS.length)];
-            ligneActuelle = 0;
-            lettreActuelle = 0;
-            essaiCourant = "";
-
-            for (let i = 0; i < NOMBRE_ESSAIS; i++) {
-                for (let j = 0; j < LONGUEUR_MOT; j++) {
-                    const c = document.getElementById(`case-${i}-${j}`);
-                    c.textContent = "";
-                    c.className = 'lettre';
-                }
-            }
-        }
-    </script>
-</body>
-</html>
